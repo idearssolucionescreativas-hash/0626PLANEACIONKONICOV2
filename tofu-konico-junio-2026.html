@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0B0D12">
+<title>Estrategia TOFU · KONICO · Junio 2026</title>
+<style>
+:root{
+  --bg:#0B0D12;--surface:#141924;--surface-2:#1B2231;--surface-3:#212D40;
+  --hairline:rgba(255,255,255,.08);
+  --text:#F2F5FA;--text-2:#9AA4B6;--text-3:#5E6878;
+  --blue:#0A84FF;--orange:#FF9F0A;--green:#30D158;
+  --red:#FF453A;--teal:#64D2FF;--purple:#BF5AF2;
+  --tofu:#0A84FF;
+  --reel:#30D158;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --radius:18px;--pad:clamp(14px,3vw,28px);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{
+  font-family:var(--font);background:var(--bg);color:var(--text);
+  min-height:100vh;min-height:100dvh;
+  padding-bottom:max(48px,env(safe-area-inset-bottom));
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── HEADER ── */
+header{
+  background:linear-gradient(135deg,rgba(10,132,255,.18),rgba(10,132,255,.06));
+  border-bottom:1px solid var(--hairline);
+  padding:calc(22px + env(safe-area-inset-top)) var(--pad) 24px;
+}
+.hd{max-width:1200px;margin:0 auto}
+.hd-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--tofu);margin-bottom:10px;
+}
+.hd-eyebrow span{width:24px;height:2px;background:var(--tofu);border-radius:2px;display:inline-block}
+.hd h1{font-size:clamp(20px,4vw,32px);font-weight:900;letter-spacing:-.04em;line-height:1.15;margin-bottom:10px}
+.hd h1 em{font-style:normal;color:var(--tofu)}
+.hd-desc{color:var(--text-2);font-size:13.5px;line-height:1.7;max-width:760px;margin-bottom:18px;word-break:break-word}
+.hd-pregunta{
+  display:inline-block;
+  background:rgba(10,132,255,.12);border:1px solid rgba(10,132,255,.3);
+  border-radius:12px;padding:12px 16px;
+  font-size:14px;font-weight:700;color:var(--text);font-style:italic;
+  line-height:1.5;max-width:700px;
+}
+.hd-pregunta strong{color:var(--tofu);font-style:normal}
+
+/* ── MAIN ── */
+.main{max-width:1200px;margin:0 auto;padding:28px var(--pad) 0}
+
+/* ── DISTRIBUCIÓN ── */
+.dist-block{
+  background:var(--surface);border:1px solid var(--hairline);
+  border-radius:var(--radius);padding:20px var(--pad);margin-bottom:28px;
+}
+.dist-title{
+  font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--text-3);margin-bottom:14px;
+}
+.dist-bar-wrap{background:var(--surface-2);border-radius:999px;height:10px;overflow:hidden;margin-bottom:14px}
+.dist-bar{display:flex;height:100%}
+.dist-seg-r{background:var(--reel);flex:75}
+.dist-seg-c{background:var(--orange);flex:17.5}
+.dist-seg-p{background:var(--purple);flex:7.5}
+.dist-legend{display:flex;gap:clamp(10px,3vw,28px);flex-wrap:wrap}
+.dist-item{display:flex;align-items:center;gap:7px}
+.dist-dot{width:10px;height:10px;border-radius:3px;flex:none}
+.dist-dot-r{background:var(--reel)}
+.dist-dot-c{background:var(--orange)}
+.dist-dot-p{background:var(--purple)}
+.dist-item-text{font-size:12.5px;font-weight:700;color:var(--text-2)}
+.dist-item-text strong{color:var(--text)}
+.dist-item-pct{font-family:var(--mono);font-size:13px;font-weight:800;margin-left:4px}
+.dist-pct-r{color:var(--reel)}
+.dist-pct-c{color:var(--orange)}
+.dist-pct-p{color:var(--purple)}
+
+/* ── SECCIÓN POR TIPO ── */
+.section{margin-bottom:36px}
+.section-header{
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:20px;padding-bottom:14px;
+  border-bottom:1px solid var(--hairline);
+}
+.section-icon{font-size:22px;line-height:1}
+.section-info h2{font-size:clamp(15px,2.5vw,19px);font-weight:900;letter-spacing:-.02em}
+.section-info p{font-size:12.5px;color:var(--text-2);font-weight:600;margin-top:3px}
+.section-cnt{
+  font-family:var(--mono);font-size:11.5px;font-weight:800;color:var(--text-3);
+  background:var(--surface-2);padding:4px 10px;border-radius:8px;margin-left:auto;flex:none;
+}
+
+/* ── CARDS ── */
+.cards{display:grid;gap:16px}
+@media(min-width:900px){.cards{grid-template-columns:1fr 1fr}}
+@media(min-width:1400px){.cards-3{grid-template-columns:1fr 1fr 1fr}}
+
+/* ── CARD ── */
+.card{
+  background:var(--surface);border:1px solid var(--hairline);
+  border-radius:var(--radius);overflow:hidden;position:relative;
+  display:flex;flex-direction:column;
+}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--ca)}
+.card.cr{--ca:var(--reel)}
+.card.cc{--ca:var(--orange)}
+.card.cp{--ca:var(--purple)}
+
+.card-header{
+  padding:15px 16px 12px 20px;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:10px;
+  border-bottom:1px solid var(--hairline);
+}
+.card-header-left{flex:1;min-width:0}
+.card-num{font-family:var(--mono);font-size:10.5px;font-weight:800;color:var(--text-3);margin-bottom:4px}
+.card-title{font-size:14.5px;font-weight:900;letter-spacing:-.02em;line-height:1.3;word-break:break-word}
+.card-badges{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
+.badge{
+  font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;
+  padding:3px 9px;border-radius:6px;white-space:nowrap;
+}
+.badge-reel{background:rgba(48,209,88,.15);color:var(--reel)}
+.badge-carrusel{background:rgba(255,159,10,.15);color:var(--orange)}
+.badge-portada{background:rgba(191,90,242,.15);color:var(--purple)}
+.badge-real{background:rgba(48,209,88,.12);color:var(--green);border:1px solid rgba(48,209,88,.25)}
+.badge-dur{background:rgba(255,255,255,.07);color:var(--text-3)}
+
+.card-body{padding:14px 16px 18px 20px;display:grid;gap:9px;flex:1}
+
+/* ── CAMPOS ── */
+.f{display:grid;grid-template-columns:clamp(100px,26%,128px) 1fr;gap:6px;align-items:baseline}
+@media(max-width:480px){.f{grid-template-columns:1fr;gap:1px}}
+.fl{font-size:9.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--text-3);padding-top:1px;line-height:1.4}
+.fv{font-size:13px;color:var(--text-2);font-weight:600;line-height:1.55;word-break:break-word;overflow-wrap:break-word}
+.fv strong{color:var(--text);font-weight:800}
+.fv em{color:var(--text-3);font-style:normal;font-size:12px}
+
+/* ── INSTRUCCIONES DE GRABACIÓN ── */
+.grab-box{
+  background:var(--surface-2);border:1px solid var(--hairline);
+  border-radius:12px;padding:13px 14px;grid-column:1/-1;
+}
+.grab-label{
+  font-size:9px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--text-3);margin-bottom:5px;display:flex;align-items:center;gap:5px;
+}
+.grab-label::before{content:"🎬";font-size:11px}
+.grab-text{font-size:12.5px;color:var(--text-2);font-weight:600;line-height:1.6}
+.grab-text strong{color:var(--text);font-weight:800}
+
+/* ── COPY BOX ── */
+.copy-box{
+  background:linear-gradient(135deg,rgba(10,132,255,.08),rgba(191,90,242,.05));
+  border:1px solid var(--hairline);border-radius:12px;
+  padding:12px 14px;grid-column:1/-1;
+}
+.copy-label{font-size:9px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--text-3);margin-bottom:4px}
+.copy-text{font-size:13.5px;font-weight:800;color:var(--text);line-height:1.45;font-style:italic;margin-bottom:6px}
+.cta-text{
+  font-size:11px;font-weight:800;color:var(--orange);
+  letter-spacing:.05em;text-transform:uppercase;
+  padding-top:7px;border-top:1px solid var(--hairline);
+}
+
+/* ── PAUTA SI ── */
+.pauta-si{color:var(--green);font-weight:800}
+
+/* ── REGLA DE ORO ── */
+.regla{
+  background:linear-gradient(135deg,rgba(10,132,255,.10),rgba(48,209,88,.07));
+  border:1px solid rgba(10,132,255,.25);border-radius:var(--radius);
+  padding:20px var(--pad);margin-bottom:28px;
+  display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;
+}
+.regla-icon{font-size:28px;line-height:1;flex:none;margin-top:2px}
+.regla h2{font-size:14px;font-weight:800;color:var(--tofu);margin-bottom:6px}
+.regla p{font-size:13px;color:var(--text-2);font-weight:600;line-height:1.65}
+.regla p strong{color:var(--text);font-weight:800}
+
+/* ── FOOTER ── */
+footer{max-width:1200px;margin:16px auto 0;padding:0 var(--pad)}
+.footer-note{color:var(--text-3);font-size:11.5px;line-height:1.6;text-align:center;margin-bottom:14px}
+.footer-brand{
+  display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;
+  padding:18px var(--pad);
+  background:linear-gradient(135deg,rgba(10,132,255,.12),rgba(191,90,242,.12));
+  border:1px solid rgba(191,90,242,.2);border-radius:var(--radius);
+  margin-bottom:max(18px,env(safe-area-inset-bottom));
+}
+.footer-text{
+  font-size:15px;font-weight:600;
+  background:linear-gradient(90deg,#0A84FF,#BF5AF2);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.footer-text strong{font-weight:900}
+.footer-contact{
+  font-size:14px;font-weight:700;text-decoration:none;
+  background:linear-gradient(90deg,#BF5AF2,#0A84FF);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+
+/* ── RESPONSIVO ── */
+/* iPhone ≤480px */
+@media(max-width:480px){
+  .hd h1{font-size:20px}
+  .hd-desc{font-size:13px}
+  .hd-pregunta{font-size:13px;padding:10px 13px}
+  .main{padding-top:20px}
+  .cards{grid-template-columns:1fr}
+  .dist-legend{gap:10px}
+  .section-header{flex-wrap:wrap}
+  .section-cnt{margin-left:0}
+  .card-title{font-size:14px}
+  .card-body{padding:12px 13px 16px 17px;gap:8px}
+  .grab-text{font-size:12px}
+  .copy-text{font-size:13px}
+  .fv{font-size:12.5px}
+  .regla{gap:10px}
+  .regla-icon{font-size:22px}
+  .regla h2{font-size:13px}
+  .regla p{font-size:12.5px}
+}
+/* iPhone SE ≤360px */
+@media(max-width:360px){
+  .hd h1{font-size:18px}
+  .card-title{font-size:13px}
+  .hd-pregunta{font-size:12px}
+}
+/* Mac ≥1280px */
+@media(min-width:1280px){
+  :root{--radius:20px}
+  .hd h1{font-size:30px}
+  .card-title{font-size:15px}
+  .fv{font-size:13.5px}
+  .grab-text{font-size:13px}
+  .copy-text{font-size:14px}
+}
+/* iMac ≥1800px */
+@media(min-width:1800px){
+  :root{--radius:24px}
+  .main{max-width:1480px;padding-top:32px}
+  footer{max-width:1480px}
+  .hd{max-width:1480px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hd">
+    <div class="hd-eyebrow"><span></span>TOFU · Top of Funnel<span></span></div>
+    <h1>Estrategia de contenido<br><em>real y auténtico</em> para Konico</h1>
+    <p class="hd-desc">Todo el contenido de esta etapa está basado en situaciones reales y verificables del restaurante. Nada inventado, nada hipotético. El objetivo es captar atención de personas que nunca han oído hablar de Konico — usando solo lo que ya existe: el producto, la cocina, el ambiente y los clientes reales.</p>
+    <div class="hd-pregunta">
+      La única pregunta que debe responder cada pieza:<br>
+      <strong>"¿Qué está pasando aquí que hace que tanta gente quiera venir?"</strong>
+    </div>
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- ── DISTRIBUCIÓN ── -->
+  <div class="dist-block">
+    <div class="dist-title">Distribución estratégica de formatos</div>
+    <div class="dist-bar-wrap">
+      <div class="dist-bar">
+        <div class="dist-seg-r"></div>
+        <div class="dist-seg-c"></div>
+        <div class="dist-seg-p"></div>
+      </div>
+    </div>
+    <div class="dist-legend">
+      <div class="dist-item">
+        <div class="dist-dot dist-dot-r"></div>
+        <span class="dist-item-text"><strong>Reels</strong> — contenido principal<span class="dist-item-pct dist-pct-r"> 75%</span></span>
+      </div>
+      <div class="dist-item">
+        <div class="dist-dot dist-dot-c"></div>
+        <span class="dist-item-text"><strong>Carruseles</strong> — soporte informativo<span class="dist-item-pct dist-pct-c"> 17%</span></span>
+      </div>
+      <div class="dist-item">
+        <div class="dist-dot dist-dot-p"></div>
+        <span class="dist-item-text"><strong>Portadas</strong> — refuerzo visual<span class="dist-item-pct dist-pct-p"> 8%</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── REGLA DE ORO ── -->
+  <div class="regla">
+    <span class="regla-icon">⚡</span>
+    <div>
+      <h2>Regla de oro en TOFU</h2>
+      <p>En esta etapa <strong>no se vende, se atrae.</strong> El contenido no explica la marca, no argumenta precios ni hace comparaciones. Solo muestra lo que ya existe y deja que el producto hable. Cada pieza debe ser <strong>tan visual y tan apetecible</strong> que la persona que nunca supo que Konico existía quede con la pregunta: <strong>"¿Dónde queda eso?"</strong></p>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════
+       SECCIÓN 1 · REELS
+  ═══════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">🎬</span>
+      <div class="section-info">
+        <h2>Reels — Formato principal</h2>
+        <p>Grabados en el restaurante, con producto real y sin guión elaborado. El algoritmo de Instagram prioriza Reels sobre cualquier otro formato.</p>
+      </div>
+      <span class="section-cnt">7 piezas · 75%</span>
+    </div>
+    <div class="cards">
+
+      <!-- R1 -->
+      <div class="card cr">
+        <div class="card-header">
+          <div class="card-header-left">
+            <div class="card-num">R1</div>
+            <div class="card-title">El kono sale del horno</div>
+            <div class="card-badges">
+              <span class="badge badge-reel">Reel</span>
+              <span class="badge badge-real">✓ Real</span>
+              <span class="badge badge-dur">12–15 seg</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="f"><span class="fl">¿Para qué sirve?</span><span class="fv">Capturar atención inmediata con el momento más visual del proceso: el kono recién salido del horno. El vapor y el color dorado son el gancho que nadie puede ignorar.</span></div>
+          <div class="grab-box">
+            <div class="grab-label">Cómo grabarlo</div>
+            <div class="grab-text">Cámara muy cerca de la puerta del horno. Grabar en el momento exacto en que el cono sale — que se vea el vapor, el color dorado y la textura crujiente. <strong>Cámara lenta (60fps o modo slo-mo del iPhone).</strong> No hace falta nada más: el producto hace todo el trabajo. Grabar en vertical.</div>
+          </div>
+          <div class="f"><span class="fl">Sonido</span><span class="fv">El sonido real del horno o del crujido del cono al sacarlo. Sin música invasiva — el ASMR natural es el gancho.</span></div>
+          <div class="copy-box">
+            <div class="copy-label">Copy</div>
+            <div class="copy-text">"Recién salido. Solo en Konico. 🔥"</div>
+            <div class="cta-text">CTA → Mira lo que está pasando en Konico</div>
+          </div>
+          <div class="f"><span class="fl">¿Pauta?</span><span class="fv pauta-si">✓ Sí</span></div>
+          <div class="f"><span class="fl">Tipo de pauta</span><span class="fv"><strong>Alcance</strong> — para llegar a la mayor cantidad de gente posible</span></div>
+          <div class="f"><span class="fl">¿A quién va?</span><span class="fv">18–40 años, Medellín (Laureles y Manila) y Tuluá. Gente nueva que no conoce la marca.</span></div>
+          <div class="f"><span class="fl">Cuándo publicar</span><span class="fv">11:30 AM o 6:30 PM — antes de que la gente decida qué comer.</span></div>
+        </div>
+      </div>
+
+      <!-- R2 -->
+      <div class="card cr">
+        <div class="card-header">
+          <div class="card-header-left">
+            <div class="card-num">R2</div>
+            <div class="card-title">De la masa al plato — el proceso completo</div>
+            <div class="card-badges">
+              <span class="badge badge-reel">Reel</span>
+              <span class="badge badge-real">✓ Real</span>
+              <span class="badge badge-dur">20–25 seg</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="f"><span class="fl">¿Para qué sirve?</span><span class="fv">Mostrar que el kono se hace desde cero en el momento. Eso lo diferencia de la comida rápida convencional sin necesidad de decirlo con palabras.</span></div>
+          <div class="grab-box">
+            <div class="grab-label">Cómo grabarlo</div>
+            <div class="grab-text">Secuencia de pasos reales sin cortes de tiempo: <strong>masa cruda → entra al horno → cono dorado saliendo (vapor) → relleno siendo puesto con pinzas → kono listo en manos del cliente.</strong> Cortes rápidos entre cada paso, al ritmo de la música. No necesita texto, solo el proceso que se ve y se entiende solo. Luz de la cocina real está bien.</div>
+          </div>
+          <div class="f"><span class="fl">Sonido</span><span class="fv">Música trending con energía — sin voz en off. El proceso habla solo.</span></div>
+          <div class="copy-box">
+            <div class="copy-label">Copy</div>
+            <div class="copy-text">"Esto no viene de una bolsa. Cada kono empieza desde aquí. 🍟"</div>
+            <div class="cta-text">CTA → Ven y pruébalo hoy</div>
+          </div>
+          <div class="f"><span class="fl">¿Pauta?</span><span class="fv pauta-si">✓ Sí</span></div>
+          <div class="f"><span class="fl">Tipo de pauta</span><span class="fv"><strong>Alcance</strong></span></div>
+          <div class="f"><span class="fl">¿A quién va?</span><span class="fv">18–40 años, Medellín y Tuluá. Personas que buscan comida diferente y de calidad.</span></div>
+          <div class="f"><span class="fl">Cuándo publicar</span><span class="fv">12:00 PM o 7:00 PM</span></div>
+        </div>
+      </div>
+
+      <!-- R3 -->
+      <div class="card cr">
+        <div class="card-header">
+          <div class="card-header-left">
+            <div class="card-num">R3</div>
+            <div class="card-title">El primer mordisco — close-up extremo</div>
+            <div class="card-badges">
+              <span class="badge badge-reel">Reel</span>
+              <span class="badge badge-real">✓ Real</span>
+              <span class="badge badge-dur">10–12 seg</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="f"><span class="fl">¿Para qué sirve?</span><span class="fv">El crujido del primer mordisco es el sonido más efectivo para detener el scroll. Es corto, sensorial y directo al antojo.</span></div>
+          <div class="grab-box">
+            <div class="grab-label">Cómo grabarlo</div>
+            <div class="grab-text">Cámara <strong>muy cerca</strong> del kono — a 10–15 cm. Alguien muerde el kono y la cámara sigue el movimiento. <strong>El crujido real tiene que escucharse.</strong> Si el iPhone tiene modo macro, úsarlo. Grabar varios intentos y quedarse con el que mejor suene y mejor se vea. Fondo: la mesa del restaurante, nada más.</div>
+          </div>
+          <div class="f"><span class="fl">Sonido</span><span class="fv"><strong>Sin música.</strong> Solo el crujido real del kono. Ese es el gancho.</span></div>
+          <div class="copy-box">
+            <div class="copy-label">Copy</div>
+            <div class="copy-text">"¿Escuchaste eso? Eso es un kono de Konico. 👀"</div>
+            <div class="cta-text">CTA → Descubre más en nuestro menú</div>
+          </div>
+          <div class="f"><span class="fl">¿Pauta?</span><span class="fv pauta-si">✓ Sí</span></div>
+          <div class="f"><span class="fl">Tipo de pauta</span><span class="fv"><strong>Alcance / Interacción</strong></span></div>
+          <div class="f"><span class="fl">¿A quién va?</span><span class="fv">18–38 años, todas las sedes. Público amplio — este reel funciona con cualquier persona que tenga hambre.</span></div>
+          <div class="f"><span class="fl">Cuándo publicar</span><span class="fv">11:00 AM, 4:00 PM o 9:00 PM — horas de antojo.</span></div>
+        </div>
+      </div>
+
+      <!-- R4 -->
+      <div class="card cr">
+        <div class="card-header">
+          <div class="card-header-left">
+            <div class="card-num">R4</div>
+            <div class="card-title">Tomas sensoriales — queso, salsas y texturas</div>
+            <div class="card-badges">
+              <span class="badge badge-reel">Reel</span>
+              <span class="badge badge-real">✓ Real</span>
+              <span class="badge badge-dur">15–18 seg</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="f"><span class="fl">¿Para qué sirve?</span><span class="fv">Activar el antojo a través de los sentidos. El queso derritiéndose, la salsa cayendo y el vapor de la fritura son los elementos más efectivos para generar deseo inmediato.</span></div>
+          <div class="grab-box">
+            <div class="grab-label">Cómo grabarlo</div>
+            <div class="grab-text">Serie de tomas cortas encadenadas (2–3 seg cada una): <strong>1. Queso mozzarella derritiéndose sobre el Koni Pizza Napolitano.</strong> 2. Salsa de chile agridulce cayendo sobre los Camarones Orientales. 3. Las Papas Chips con salsa Berlín recién servidas. 4. Vapor saliendo de un kono recién abierto. Grabar cada toma por separado y editar en secuencia rápida. No necesita transición compleja — corte directo entre cada toma.</div>
+          </div>
+          <div class="f"><span class="fl">Sonido</span><span class="fv">ASMR real de cada toma (sizzle de la fritura, salsa cayendo) más música lo-fi suave de fondo.</span></div>
+          <div class="copy-box">
+            <div class="copy-label">Copy</div>
+            <div class="copy-text">"Cosas que no deberías ver si todavía no has pedido. 🤤"</div>
+            <div class="cta-text">CTA → Mira lo que está pasando en Konico</div>
+          </div>
+          <div class="f"><span class="fl">¿Pauta?</span><span class="fv pauta-si">✓ Sí</span></div>
+          <div class="f"><span class="fl">Tipo de pauta</span><span class="fv"><strong>Alcance</strong></span></div>
+          <div class="f"><span class="fl">¿A quién va?</span><span class="fv">18–40 años, Medellín y Tuluá. Amantes de la comida, foodies, personas activas en Instagram.</span></div>
+          <div class="f"><span class="fl">Cuándo publicar</span><span class="fv">6:00 PM — antes de la cena, cuando el antojo está en su punto más alto.</span></div>
+        </div>
+      </div>
+
+      <!-- R5 -->
+      <div class="card cr">
+        <div class="card-header">
+          <div class="card-header-left">
+            <div class="card-num">R5</div>
+            <div class="card-title">El restaurante en servicio real</div>
+            <div class="card-badges">
+              <span class="badge badge-reel">Reel</span>
+              <span class="badge badge-real">✓ Real</span>
+              <span class="badge badge-dur">20–25 seg</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="f"><span class="fl">¿Para qué sirve?</span><span class="fv">Mostrar que el lugar existe, está lleno y la gente está disfrutando. Eso es la prueba social más poderosa en TOFU — el restaurante lleno dice más que cualquier argumento.</span></div>
+          <div class="grab-box">
+            <div class="grab-label">Cómo grabarlo</div>
+            <div class="grab-text">Grabar durante el <strong>horario pico real del restaurante</strong> (almuerzo o noche de fin de semana). Secuencia: <strong>1. Plano amplio del restaurante con mesas ocupadas.</strong> 2. Zoom suave a una mesa con konos servidos. 3. Cocina en movimiento — manos preparando, platos saliendo. 4. Primer plano de un plato recién llegado a la mesa. Sin hablar, sin entrevistas. Solo el ambiente real.</div>
+          </div>
+          <div class="f"><span class="fl">Sonido</span><span class="fv">Ambiente real del restaurante (voces, cubiertos, música del local). Puede ir con música trending encima pero que el ambiente se sienta real.</span></div>
+          <div class="copy-box">
+            <div class="copy-label">Copy</div>
+            <div class="copy-text">"Esto es Konico un [día / viernes / sábado] normal. 👀"</div>
+            <div class="cta-text">CTA → Ven y pruébalo hoy · [dirección]</div>
+          </div>
+          <div class="f"><span class="fl">¿Pauta?</span><span class="fv pauta-si">✓ Sí</span></div>
+          <div class="f"><span class="fl">Tipo de pauta</span><span class="fv"><strong>Alcance</strong> — para que llegue a personas que viven cerca de cada sede</span></div>
+          <div class="f"><span class="fl">¿A quién va?</span><span class="fv">22–45 años, radio de 5 km de cada sede. Personas que salen a comer o piden domicilio los fines de semana.</span></div>
+          <div class="f"><span class="fl">Cuándo publicar</span><span class="fv">Viernes o sábado entre 5:00–7:00 PM — cuando la gente está eligiendo plan.</span></div>
+        </div>
+      </div>
+
+      <!-- R6 -->
+      <div class="card cr">
+        <div class="card-header">
+          <div class="card-header-left">
+            <div class="card-num">R6</div>
+            <div class="card-title">Un cliente real probando por primera vez</div>
+            <div class="card-badges">
+              <span class="badge badge-reel">Reel</span>
+              <span class="badge badge-real">✓ Real</span>
+              <span class="badge badge-dur">10–15 seg</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="f"><span class="fl">¿Para qué sirve?</span><span class="fv">Una reacción genuina de un cliente real activa la identificación en quien lo ve: <em>"Si a esa persona le gustó tanto, yo también quiero probarlo."</em> Es el formato más efectivo en TOFU porque no parece publicidad.</span></div>
+          <div class="grab-box">
+            <div class="grab-label">Cómo grabarlo</div>
+            <div class="grab-text">Pedir permiso a un cliente para grabar su primera mordida. <strong>Sin guión, sin ensayo, sin pedirle que diga nada específico.</strong> Solo grabar la reacción natural. Si dice algo bueno de forma espontánea, mejor. Si no dice nada y solo pone cara de "wow", también funciona. Texto encima: <strong>"Primera vez 👀"</strong> Grabar en vertical, luz del restaurante está bien.</div>
+          </div>
+          <div class="f"><span class="fl">Sonido</span><span class="fv">Lo que diga el cliente de forma natural. Si hay silencio, música suave de fondo. No doblarlo ni editarlo en exceso.</span></div>
+          <div class="copy-box">
+            <div class="copy-label">Copy</div>
+            <div class="copy-text">"Esta cara lo dice todo. ¿Ya viviste la tuya? 🤤"</div>
+            <div class="cta-text">CTA → Descubre más en nuestro menú</div>
+          </div>
+          <div class="f"><span class="fl">¿Pauta?</span><span class="fv pauta-si">✓ Sí · los videos de clientes reales generan el mayor alcance orgánico y el mejor resultado en pauta</span></div>
+          <div class="f"><span class="fl">Tipo de pauta</span><span class="fv"><strong>Alcance / Interacción</strong></span></div>
+          <div class="f"><span class="fl">¿A quién va?</span><span class="fv">18–35 años, todas las sedes. Funciona con cualquier audiencia nueva.</span></div>
+          <div class="f"><span class="fl">Cuándo publicar</span><span class="fv">Cualquier hora — este formato no depende del momento.</span></div>
+        </div>
+      </div>
+
+      <!-- R7 -->
+      <div class="card cr">
+        <div class="card-header">
+          <div class="card-header-left">
+            <div class="card-num">R7</div>
+            <div class="card-title">La cocina volando — hora pico real</div>
+            <div class="card-badges">
+              <span class="badge badge-reel">Reel</span>
+              <span class="badge badge-real">✓ Real</span>
+              <span class="badge badge-dur">15–20 seg</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="f"><span class="fl">¿Para qué sirve?</span><span class="fv">Mostrar la energía real de la cocina en hora pico comunica que el lugar es exitoso, que hay demanda, y que el producto vale la espera. Es aspiracional sin necesitar ser aspiracional.</span></div>
+          <div class="grab-box">
+            <div class="grab-label">Cómo grabarlo</div>
+            <div class="grab-text">Grabar desde dentro de la cocina o desde el área de preparación durante el momento más activo del día. <strong>Manos trabajando, platos saliendo, movimiento constante.</strong> Tomas rápidas desde diferentes ángulos: arriba, de lado, de cerca. Si hay TV con el partido del Mundial de fondo, mejor — conecta con el contexto del mes. Editar en timelapse suave o con cortes rápidos.</div>
+          </div>
+          <div class="f"><span class="fl">Sonido</span><span class="fv">Sonidos reales de cocina + música con energía encima. La combinación de ruido real y música crea urgencia.</span></div>
+          <div class="copy-box">
+            <div class="copy-label">Copy</div>
+            <div class="copy-text">"Así luce Konico cuando hay partido. 🍟⚽ ¿Ya pediste el tuyo?"</div>
+            <div class="cta-text">CTA → Mira lo que está pasando en Konico</div>
+          </div>
+          <div class="f"><span class="fl">¿Pauta?</span><span class="fv pauta-si">✓ Sí</span></div>
+          <div class="f"><span class="fl">Tipo de pauta</span><span class="fv"><strong>Alcance</strong></span></div>
+          <div class="f"><span class="fl">¿A quién va?</span><span class="fv">18–40 años, Medellín y Tuluá. Conecta especialmente con el contexto del Mundial de junio.</span></div>
+          <div class="f"><span class="fl">Cuándo publicar</span><span class="fv">El día de partido de Colombia, 2–3 horas antes del juego.</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════
+       SECCIÓN 2 · CARRUSELES
+  ═══════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">📋</span>
+      <div class="section-info">
+        <h2>Carruseles — Soporte informativo</h2>
+        <p>Complementan los Reels con información clara. No son el contenido principal, son la respuesta a la pregunta "¿qué tienen?" después de ver el video.</p>
+      </div>
+      <span class="section-cnt">2 piezas · 17%</span>
+    </div>
+    <div class="cards">
+
+      <!-- C1 -->
+      <div class="card cc">
+        <div class="card-header">
+          <div class="card-header-left">
+            <div class="card-num">C1</div>
+            <div class="card-title">El menú completo de Konico</div>
+            <div class="card-badges">
+              <span class="badge badge-carrusel">Carrusel</span>
+              <span class="badge badge-real">✓ Real</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="f"><span class="fl">¿Para qué sirve?</span><span class="fv">Después de ver un Reel, la persona quiere saber qué hay disponible y cuánto cuesta. Este carrusel responde esa pregunta de forma directa.</span></div>
+          <div class="f"><span class="fl">Estructura</span><span class="fv">Slide 1: portada — <strong>"El menú de Konico."</strong> Slides 2–5: una categoría por slide (Koni Maíz · Koni Pizza · Koni Postre · Acompañantes) con foto real de cada producto, nombre y precio. Slide 6 (cierre): dirección de cada sede + número de WhatsApp.</span></div>
+          <div class="f"><span class="fl">Requisito</span><span class="fv"><strong>Solo fotos reales del menú actual.</strong> Sin renders, sin imágenes de stock. Los precios deben estar actualizados al momento de publicar.</span></div>
+          <div class="copy-box">
+            <div class="copy-label">Copy</div>
+            <div class="copy-text">"Todo lo que podés pedir en Konico. Desliza y guárdalo para cuando el antojo llegue. 📌"</div>
+            <div class="cta-text">CTA → Guárdalo para tu próxima visita · Escríbenos por WhatsApp</div>
+          </div>
+          <div class="f"><span class="fl">¿Pauta?</span><span class="fv pauta-si">✓ Sí</span></div>
+          <div class="f"><span class="fl">Tipo de pauta</span><span class="fv"><strong>Alcance / Interacción</strong> — para que lo guarden</span></div>
+          <div class="f"><span class="fl">¿A quién va?</span><span class="fv">18–45 años, Medellín y Tuluá. Personas que ya vieron alguno de los Reels anteriores.</span></div>
+        </div>
+      </div>
+
+      <!-- C2 -->
+      <div class="card cc">
+        <div class="card-header">
+          <div class="card-header-left">
+            <div class="card-num">C2</div>
+            <div class="card-title">Los 5 más pedidos de Konico</div>
+            <div class="card-badges">
+              <span class="badge badge-carrusel">Carrusel</span>
+              <span class="badge badge-real">✓ Real</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="f"><span class="fl">¿Para qué sirve?</span><span class="fv">Los rankings funcionan como prueba social pasiva. Cuando alguien no sabe qué pedir, "lo que más piden" resuelve la duda y genera confianza sin necesidad de argumentar.</span></div>
+          <div class="f"><span class="fl">Estructura</span><span class="fv">Slide 1: portada — <strong>"Los 5 konos más pedidos de Konico."</strong> Slides 2–6: un kono por slide con foto real, nombre, descripción breve de ingredientes y precio. <strong>El ranking debe ser real — usar datos reales de ventas.</strong> Slide 7: "¿Cuál vas a probar primero?" + WhatsApp.</span></div>
+          <div class="f"><span class="fl">Requisito</span><span class="fv"><strong>El ranking tiene que ser verdadero.</strong> Si los más pedidos son el Búfalo Solomito y los Camarones Orientales, esos van primero. No inventar el orden.</span></div>
+          <div class="copy-box">
+            <div class="copy-label">Copy</div>
+            <div class="copy-text">"La gente eligió. Estos son los 5 konos que más piden en Konico. ¿Cuál te llama más?"</div>
+            <div class="cta-text">CTA → Mira el menú completo · Escríbenos por WhatsApp</div>
+          </div>
+          <div class="f"><span class="fl">¿Pauta?</span><span class="fv pauta-si">✓ Sí</span></div>
+          <div class="f"><span class="fl">Tipo de pauta</span><span class="fv"><strong>Interacción</strong> — para que comenten y guarden</span></div>
+          <div class="f"><span class="fl">¿A quién va?</span><span class="fv">18–40 años, todas las sedes. Funciona muy bien para personas que ya vieron un Reel pero todavía no decidieron qué pedir.</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════
+       SECCIÓN 3 · PORTADAS
+  ═══════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-header">
+      <span class="section-icon">🖼️</span>
+      <div class="section-info">
+        <h2>Portadas — Refuerzo visual</h2>
+        <p>Refuerzan la percepción de variedad y abundancia. Funcionan en el perfil como ancla visual, no como piezas de alcance.</p>
+      </div>
+      <span class="section-cnt">1 pieza · 8%</span>
+    </div>
+    <div class="cards">
+
+      <!-- P1 -->
+      <div class="card cp">
+        <div class="card-header">
+          <div class="card-header-left">
+            <div class="card-num">P1</div>
+            <div class="card-title">La bandeja completa — exhibición real del menú</div>
+            <div class="card-badges">
+              <span class="badge badge-portada">Portada</span>
+              <span class="badge badge-real">✓ Real</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="f"><span class="fl">¿Para qué sirve?</span><span class="fv">Una sola foto de varios konos juntos comunica variedad, abundancia y calidad visual del producto sin necesitar palabras. Es la imagen de perfil que convence a quien llega por primera vez.</span></div>
+          <div class="grab-box">
+            <div class="grab-label">Cómo hacerla</div>
+            <div class="grab-text">Montar una bandeja real con los konos más fotogénicos del menú: mínimo 4–5 konos distintos. <strong>Luz natural o luz del restaurante bien dirigida.</strong> Foto cenital (desde arriba) o a 45° para ver los rellenos. Que se vean los colores, los ingredientes y las salsas. <strong>Sin fondos artificiales</strong> — la mesa del restaurante o una tabla de madera real funcionan perfecto. Usar el modo retrato del iPhone si la luz está bien.</div>
+          </div>
+          <div class="f"><span class="fl">Requisito</span><span class="fv"><strong>Todos los konos de la foto deben estar disponibles en el menú actual.</strong> Sin prototipos, sin platos descontinuados.</span></div>
+          <div class="copy-box">
+            <div class="copy-label">Copy</div>
+            <div class="copy-text">"Un kono para cada antojo. ¿Por cuál empezás? 🍟"</div>
+            <div class="cta-text">CTA → Guárdalo para tu próxima visita</div>
+          </div>
+          <div class="f"><span class="fl">¿Pauta?</span><span class="fv pauta-si">✓ Sí</span></div>
+          <div class="f"><span class="fl">Tipo de pauta</span><span class="fv"><strong>Alcance</strong> — como imagen fija de respaldo entre Reels</span></div>
+          <div class="f"><span class="fl">¿A quién va?</span><span class="fv">18–45 años, Medellín y Tuluá. Esta pieza funciona para cualquier persona que llegue al perfil y quiera ver de qué se trata la marca.</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<footer>
+  <p class="footer-note">Estrategia TOFU basada en: Planeación de Contenidos Konico Junio 2026 (@kontraria.co · Esteban Hernández) · Documento Estratégico de Marketing Digital KONICO v1.0 · Lineamientos de contenido real y auténtico definidos para la marca. Todo el contenido propuesto es verificable y producible con los recursos actuales del restaurante.</p>
+  <div class="footer-brand">
+    <span style="display:flex;align-items:center;flex:none">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <rect width="18" height="18" rx="5" fill="url(#fg)"/>
+        <path d="M4 13V5h4a4 4 0 0 1 0 8H4Z" fill="#fff" opacity=".9"/>
+        <circle cx="13" cy="9" r="2" fill="#fff" opacity=".7"/>
+        <defs><linearGradient id="fg" x1="0" y1="0" x2="18" y2="18" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#0A84FF"/><stop offset="1" stop-color="#BF5AF2"/>
+        </linearGradient></defs>
+      </svg>
+    </span>
+    <span class="footer-text">Hecho por <strong>DATA</strong>pro Marketing Analytic</span>
+    <span style="color:rgba(255,255,255,.25);font-size:16px">·</span>
+    <a class="footer-contact" href="tel:+573215959404">📞 321 595 9404</a>
+  </div>
+</footer>
+
+</body>
+</html>
