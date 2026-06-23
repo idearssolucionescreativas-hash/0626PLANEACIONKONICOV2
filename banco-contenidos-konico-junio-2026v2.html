@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0B0D12">
+<title>Banco de Contenidos · KONICO · Junio 2026</title>
+<style>
+:root{
+  --bg:#0B0D12;--surface:#141924;--surface-2:#1B2231;
+  --hairline:rgba(255,255,255,.08);
+  --text:#F2F5FA;--text-2:#9AA4B6;--text-3:#5E6878;
+  --orange:#FF9F0A;--green:#30D158;--red:#FF453A;--teal:#64D2FF;--purple:#BF5AF2;
+  --tofu-c:#0A84FF;--mofu-c:#64D2FF;--bofu-c:#FF9F0A;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --radius:18px;--pad:clamp(14px,3vw,28px);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;min-height:100dvh;padding-bottom:max(48px,env(safe-area-inset-bottom));-webkit-font-smoothing:antialiased}
+header{background:linear-gradient(135deg,rgba(10,132,255,.14),rgba(191,90,242,.10));border-bottom:1px solid var(--hairline);padding:calc(20px + env(safe-area-inset-top)) var(--pad) 22px}
+.hd{max-width:1200px;margin:0 auto}
+.hd-brand{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.hd-dot{width:10px;height:10px;border-radius:50%;background:var(--orange);box-shadow:0 0 14px var(--orange);flex:none}
+.hd h1{font-size:clamp(18px,3.5vw,28px);font-weight:900;letter-spacing:-.03em}
+.hd-sub{color:var(--text-2);font-size:13px;font-weight:600;margin-bottom:10px}
+.hd-desc{color:var(--text-2);font-size:13.5px;line-height:1.65;max-width:780px}
+.hd-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:800;letter-spacing:.04em;padding:5px 12px;border-radius:999px;white-space:nowrap;min-height:30px}
+.pill-tofu{background:rgba(10,132,255,.18);color:var(--tofu-c)}
+.pill-mofu{background:rgba(100,210,255,.15);color:var(--mofu-c)}
+.pill-bofu{background:rgba(255,159,10,.18);color:var(--bofu-c)}
+.pill-rec{background:rgba(48,209,88,.14);color:var(--green)}
+.pill-int{background:rgba(191,90,242,.18);color:var(--purple)}
+.pill-con{background:rgba(100,210,255,.12);color:var(--teal)}
+.pill-conv{background:rgba(255,69,58,.14);color:var(--red)}
+.main{max-width:1200px;margin:0 auto;padding:24px var(--pad) 0}
+/* CONCEPTOS */
+.metod{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius);padding:20px var(--pad);margin-bottom:28px;border-left:4px solid var(--purple)}
+.metod h2{font-size:14px;font-weight:800;margin-bottom:12px;color:var(--purple)}
+.metod-grid{display:grid;gap:14px}
+@media(min-width:720px){.metod-grid{grid-template-columns:1fr 1fr 1fr}}
+.metod-col{background:var(--surface-2);border:1px solid var(--hairline);border-radius:14px;padding:14px 16px}
+.metod-col-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.metod-col-head .pill{font-size:10.5px;padding:3px 10px}
+.metod-col-name{font-size:12px;font-weight:800;color:var(--text)}
+.metod-col p{font-size:12.5px;color:var(--text-2);font-weight:600;line-height:1.55}
+.metod-col p b{color:var(--text);font-weight:800}
+.metod > p{font-size:12px;color:var(--text-3);margin-top:12px;line-height:1.5}
+/* TABLA */
+.resumen-title{font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--text-3);margin-bottom:12px}
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:32px;border-radius:var(--radius);border:1px solid var(--hairline)}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;min-width:680px}
+thead th{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);text-align:left;padding:11px 14px;background:var(--surface-2);border-bottom:1px solid var(--hairline);white-space:nowrap}
+tbody tr:not(:last-child) td{border-bottom:1px solid var(--hairline)}
+tbody td{padding:10px 14px;font-size:12.5px;font-weight:600;color:var(--text-2);vertical-align:middle}
+tbody td:first-child{font-family:var(--mono);font-weight:800;color:var(--text-3)}
+tbody td:nth-child(2){color:var(--text);font-weight:800}
+.tbl-funnel{display:flex;flex-direction:column;gap:3px}
+.tbl-term{font-family:var(--mono);font-size:10px;font-weight:800;letter-spacing:.04em}
+.tbl-desc{font-size:11px;color:var(--text-3);font-weight:600}
+.badge-si{color:var(--green);font-weight:800}
+/* GRUPO */
+.group{margin-bottom:40px}
+.group-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--hairline)}
+.group-icon{font-size:22px;line-height:1}
+.group-header h2{font-size:clamp(16px,2.5vw,20px);font-weight:900;letter-spacing:-.02em}
+.group-cnt{font-family:var(--mono);font-size:11.5px;font-weight:800;color:var(--text-3);background:var(--surface-2);padding:4px 10px;border-radius:8px;margin-left:auto}
+/* CARDS */
+.cards{display:grid;gap:16px}
+@media(min-width:900px){.cards{grid-template-columns:1fr 1fr}}
+.card{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius);overflow:hidden;position:relative}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--cc)}
+.card.tofu{--cc:var(--tofu-c)}.card.mofu{--cc:var(--mofu-c)}.card.bofu{--cc:var(--bofu-c)}
+.card-header{padding:16px 18px 13px 22px;display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid var(--hairline)}
+.card-num{font-family:var(--mono);font-size:11px;font-weight:800;color:var(--text-3);margin-top:3px;flex:none;min-width:26px}
+.card-title{font-size:15px;font-weight:900;letter-spacing:-.02em;line-height:1.3}
+.card-pills{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.card-body{padding:16px 18px 20px 22px;display:grid;gap:10px}
+/* CAMPOS */
+.field{display:grid;grid-template-columns:clamp(110px,28%,140px) 1fr;gap:8px;align-items:baseline}
+@media(max-width:480px){.field{grid-template-columns:1fr;gap:2px}}
+.f-lbl{font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--text-3);padding-top:2px;line-height:1.4}
+.f-val{font-size:13.5px;color:var(--text-2);font-weight:600;line-height:1.55;word-break:break-word;overflow-wrap:break-word}
+.f-val strong{color:var(--text);font-weight:800}
+.f-val em{color:var(--text-3);font-style:normal;font-size:12px}
+.funnel-tag{font-family:var(--mono);font-size:11px;font-weight:800;letter-spacing:.04em;padding:2px 8px;border-radius:6px;margin-right:4px}
+.ft-tofu{background:rgba(10,132,255,.15);color:var(--tofu-c)}
+.ft-mofu{background:rgba(100,210,255,.12);color:var(--mofu-c)}
+.ft-bofu{background:rgba(255,159,10,.15);color:var(--bofu-c)}
+/* COPY BOX */
+.copy-box{margin-top:4px;background:linear-gradient(135deg,rgba(255,159,10,.08),rgba(191,90,242,.05));border:1px solid var(--hairline);border-radius:14px;padding:15px 16px;grid-column:1/-1}
+/* SEGSO */
+.copy-segso-row{display:flex;align-items:baseline;gap:8px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--hairline);flex-wrap:wrap}
+.copy-segso-lbl{font-family:var(--mono);font-size:9.5px;font-weight:800;letter-spacing:.08em;color:var(--purple);text-transform:uppercase;flex:none}
+.copy-segso-type{font-size:11.5px;font-weight:800;color:var(--purple);flex:none}
+.copy-segso-desc{font-size:12px;color:var(--text-2);font-weight:600;line-height:1.45}
+/* GANCHO / NARRATIVA / CTA */
+.copy-lbl{font-size:9.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);margin-bottom:4px}
+.copy-gancho{font-size:14.5px;font-weight:800;color:var(--text);line-height:1.45;margin-bottom:8px;font-style:italic}
+.copy-narrativa{font-size:13px;color:var(--text-2);font-weight:600;line-height:1.6;margin-bottom:8px}
+.copy-cta{font-size:11.5px;font-weight:800;color:var(--orange);letter-spacing:.04em;text-transform:uppercase;padding-top:8px;border-top:1px solid var(--hairline)}
+.pauta-si{color:var(--green);font-weight:800}
+/* ALINEACIÓN */
+.alineacion{background:var(--surface);border:1px solid var(--hairline);border-radius:var(--radius);margin-bottom:28px;overflow:hidden}
+.alin-hero{background:linear-gradient(135deg,rgba(48,209,88,.10),rgba(10,132,255,.10));border-bottom:1px solid var(--hairline);padding:22px var(--pad);display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.alin-hero-icon{font-size:38px;line-height:1;flex:none;margin-top:2px}
+.alin-hero h2{font-size:clamp(15px,2.5vw,19px);font-weight:900;letter-spacing:-.02em;margin-bottom:6px}
+.alin-hero p{font-size:13.5px;color:var(--text-2);line-height:1.65;max-width:720px;word-break:break-word}
+.alin-body{padding:22px var(--pad);display:grid;gap:22px}
+.alin-sec-title{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--text-3);padding-bottom:10px;border-bottom:1px solid var(--hairline);margin-bottom:2px}
+.alin-embudo{display:grid;gap:12px}
+@media(min-width:720px){.alin-embudo{grid-template-columns:1fr 1fr 1fr}}
+.alin-fcol{background:var(--surface-2);border:1px solid var(--hairline);border-radius:14px;padding:16px;position:relative;overflow:hidden}
+.alin-fcol::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--fc)}
+.alin-fcol.fc-t{--fc:var(--tofu-c)}.alin-fcol.fc-m{--fc:var(--mofu-c)}.alin-fcol.fc-b{--fc:var(--bofu-c)}
+.alin-fcol-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.alin-fcol-head .pill{font-size:10.5px;padding:3px 10px}
+.alin-fcol h3{font-size:13px;font-weight:800;margin-bottom:7px;line-height:1.3}
+.alin-fcol p{font-size:12.5px;color:var(--text-2);font-weight:600;line-height:1.6;word-break:break-word}
+.alin-fcol p strong{color:var(--text);font-weight:800}
+.alin-concl{background:linear-gradient(135deg,rgba(48,209,88,.09),rgba(10,132,255,.07));border:1px solid rgba(48,209,88,.22);border-radius:14px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start}
+.alin-concl-icon{font-size:26px;line-height:1;flex:none;margin-top:2px}
+.alin-concl h3{font-size:14px;font-weight:800;margin-bottom:6px;color:var(--green)}
+.alin-concl p{font-size:13px;color:var(--text-2);font-weight:600;line-height:1.65;word-break:break-word}
+.alin-concl p strong{color:var(--text);font-weight:800}
+/* FOOTER */
+footer{max-width:1200px;margin:16px auto 0;padding:0 var(--pad)}
+.footer-source{color:var(--text-3);font-size:11.5px;line-height:1.6;text-align:center;margin-bottom:16px}
+.footer-brand{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding:18px var(--pad);background:linear-gradient(135deg,rgba(10,132,255,.12),rgba(191,90,242,.12));border:1px solid rgba(191,90,242,.2);border-radius:var(--radius);margin-bottom:max(18px,env(safe-area-inset-bottom))}
+.footer-text{font-size:15px;font-weight:600;background:linear-gradient(90deg,#0A84FF,#BF5AF2);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.footer-text strong{font-weight:900}
+.footer-contact{font-size:14px;font-weight:700;text-decoration:none;background:linear-gradient(90deg,#BF5AF2,#0A84FF);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+/* RESPONSIVO */
+@media(max-width:480px){
+  .main{padding-top:18px}.cards{grid-template-columns:1fr}.metod-grid{grid-template-columns:1fr}
+  .hd h1{font-size:17px}.hd-desc{font-size:13px}.pill{font-size:10.5px;padding:4px 10px}
+  .card-title{font-size:13.5px}.card-header{padding:14px 14px 11px 18px}.card-body{padding:14px 14px 18px 18px;gap:8px}
+  .field{grid-template-columns:1fr;gap:2px}.f-val{font-size:13px}
+  .copy-gancho{font-size:13px}.copy-narrativa{font-size:12.5px}.copy-cta{font-size:11px}
+  .alin-hero{flex-direction:column;gap:10px}.alin-fcol h3{font-size:12.5px}
+  .alin-embudo{grid-template-columns:1fr}.alin-concl{flex-direction:column;gap:10px}
+  .copy-segso-row{flex-direction:column;gap:4px}
+}
+@media(max-width:360px){.hd h1{font-size:15px}.card-title{font-size:13px}}
+@media(min-width:1280px){:root{--radius:20px}.hd h1{font-size:26px}.card-title{font-size:15.5px}.f-val{font-size:14px}.copy-gancho{font-size:15px}}
+@media(min-width:1800px){:root{--radius:24px}.main{max-width:1480px}footer{max-width:1480px}.hd{max-width:1480px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hd">
+    <div class="hd-brand"><span class="hd-dot"></span><h1>KONICO · Banco de Contenidos</h1></div>
+    <div class="hd-sub">Junio 2026 · Concepto rector: ⚽ Mundial de Fútbol · @konicorestaurante</div>
+    <p class="hd-desc">11 piezas con el <strong style="color:var(--text)">Mundial de Fútbol 2026 como hilo conductor</strong>. Cada pieza integra los componentes SEGSO → GANCHO → NARRATIVA → CTA y está clasificada por etapa del embudo. El Mundial no es un tema decorativo — es el contexto emocional que conecta cada contenido con el momento de mayor atención del mes.</p>
+    <div class="hd-pills">
+      <span class="pill pill-tofu">TOFU · Gente que no nos conoce todavía</span>
+      <span class="pill pill-mofu">MOFU · Ya nos siguen pero no han pedido</span>
+      <span class="pill pill-bofu">BOFU · Listos para pedir ahora</span>
+    </div>
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- CONCEPTOS -->
+  <div class="metod">
+    <h2>¿Qué significan TOFU, MOFU y BOFU?</h2>
+    <div class="metod-grid">
+      <div class="metod-col">
+        <div class="metod-col-head"><span class="pill pill-tofu">TOFU</span><span class="metod-col-name">Top of Funnel</span></div>
+        <p>Personas que <b>no conocen Konico todavía</b>. El Mundial es el gancho que nos pone en su radar. El objetivo es generar curiosidad, no vender.</p>
+      </div>
+      <div class="metod-col">
+        <div class="metod-col-head"><span class="pill pill-mofu">MOFU</span><span class="metod-col-name">Middle of Funnel</span></div>
+        <p>Personas que <b>ya nos siguen pero no han pedido</b>. El Mundial les da la razón perfecta para hacer el primer pedido: el partido como excusa de compra.</p>
+      </div>
+      <div class="metod-col">
+        <div class="metod-col-head"><span class="pill pill-bofu">BOFU</span><span class="metod-col-name">Bottom of Funnel</span></div>
+        <p>Personas que <b>ya conocen la marca</b>. El partido tiene hora fija — esa urgencia real es el detonador de la compra. Solo necesitan el momento y el número de WhatsApp.</p>
+      </div>
+    </div>
+    <p>Pensar en el embudo evita publicar lo mismo para todos. La persona que no sabe qué es un kono necesita contenido diferente al que ya está listo para pedir el Combo Mundialista.</p>
+  </div>
+
+  <!-- ALINEACIÓN -->
+  <div class="alineacion">
+    <div class="alin-hero">
+      <span class="alin-hero-icon">⚽</span>
+      <div>
+        <h2>Alineación con la Planeación Konico · Junio 2026</h2>
+        <p>El <strong style="color:var(--text)">Mundial de Fútbol 2026 es el concepto rector de la campaña</strong>. No es un tema visual — es el hilo conductor que conecta todas las piezas, unifica el tono y le da coherencia narrativa a la parrilla completa. Cada contenido se integra dentro de la estructura del embudo, respetando pilares y objetivos de conversión en Meta Ads.</p>
+      </div>
+    </div>
+    <div class="alin-body">
+      <div>
+        <div class="alin-sec-title">Cómo el Mundial activa cada etapa del embudo</div>
+        <div class="alin-embudo">
+          <div class="alin-fcol fc-t">
+            <div class="alin-fcol-head"><span class="pill pill-tofu">TOFU</span></div>
+            <h3>Atracción — El Mundial como gancho emocional</h3>
+            <p>El fútbol es el <strong>disparador cultural de mayor alcance del mes</strong>. Capta la atención de personas que no conocen Konico conectando el partido con momentos de consumo natural: ver el partido con amigos, reunirse, compartir comida. El kono entra en la conversación cuando la gente ya está pensando en el plan.</p>
+          </div>
+          <div class="alin-fcol fc-m">
+            <div class="alin-fcol-head"><span class="pill pill-mofu">MOFU</span></div>
+            <h3>Consideración — Konico como el lugar del partido</h3>
+            <p>Se conecta la <strong>experiencia de Konico con el contexto del Mundial</strong>: los combos para ver el partido, el ambiente ideal, las razones concretas para pedir. Se refuerza la intención de visita antes de que empiece. El kono pasa de ser una opción de delivery a ser parte del plan del partido.</p>
+          </div>
+          <div class="alin-fcol fc-b">
+            <div class="alin-fcol-head"><span class="pill pill-bofu">BOFU</span></div>
+            <h3>Conversión — El partido como urgencia real</h3>
+            <p>El Mundial se convierte en el <strong>incentivo final para ventas inmediatas</strong>. Los mensajes son directos: pide antes del pitazo, el combo del partido, la historia del día que juega Colombia. La hora exacta del partido crea urgencia real que no necesita ser inventada.</p>
+          </div>
+        </div>
+      </div>
+      <div class="alin-concl">
+        <span class="alin-concl-icon">🎯</span>
+        <div>
+          <h3>En resumen</h3>
+          <p>El <strong>Mundial da la historia</strong> — coherencia emocional y narrativa a toda la campaña de junio. La <strong>planeación de contenidos es la estructura de ejecución</strong> — asegura que cada pieza llegue a las personas correctas, en el momento correcto, con el objetivo correcto en Meta.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLA RESUMEN -->
+  <div class="resumen-title">Vista general · 11 piezas</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Pieza</th><th>Etapa del funnel</th><th>¿Para qué?</th><th>Formato</th><th>¿Pauta?</th><th>Tipo de pauta</th></tr></thead>
+      <tbody>
+        <tr><td>02</td><td>¿Cuál kono eres según tu estilo de ver el partido?</td><td><div class="tbl-funnel"><span class="tbl-term" style="color:var(--mofu-c)">MOFU</span><span class="tbl-desc">Ya nos siguen</span></div></td><td>Interacción</td><td>Carrusel</td><td class="badge-si">✓ Sí</td><td>Interacción</td></tr>
+        <tr><td>03</td><td>Hoy juega Colombia — Historia de urgencia</td><td><div class="tbl-funnel"><span class="tbl-term" style="color:var(--bofu-c)">BOFU</span><span class="tbl-desc">Listos para pedir</span></div></td><td>Ventas</td><td>Historia</td><td class="badge-si">✓ Sí</td><td>Mensajes WhatsApp</td></tr>
+        <tr><td>04</td><td>Combo Mundialista</td><td><div class="tbl-funnel"><span class="tbl-term" style="color:var(--bofu-c)">BOFU</span><span class="tbl-desc">Listos para pedir</span></div></td><td>Ventas</td><td>Imagen</td><td class="badge-si">✓ Sí</td><td>Mensajes WhatsApp</td></tr>
+        <tr><td>05</td><td>La revolución llega a Tuluá</td><td><div class="tbl-funnel"><span class="tbl-term" style="color:var(--tofu-c)">TOFU</span><span class="tbl-desc">Gente nueva</span></div></td><td>Reconocimiento</td><td>Reel</td><td class="badge-si">✓ Sí</td><td>Alcance · Valle del Cauca</td></tr>
+        <tr><td>06</td><td>¿Por qué elegimos Tuluá?</td><td><div class="tbl-funnel"><span class="tbl-term" style="color:var(--tofu-c)">TOFU</span><span class="tbl-desc">Gente nueva</span></div></td><td>Posicionamiento</td><td>Carrusel</td><td class="badge-si">✓ Sí</td><td>Alcance · Interacción</td></tr>
+        <tr><td>07</td><td>El equipo que hace la magia</td><td><div class="tbl-funnel"><span class="tbl-term" style="color:var(--mofu-c)">MOFU</span><span class="tbl-desc">Ya nos siguen</span></div></td><td>Cercanía</td><td>Reel</td><td class="badge-si">✓ Sí</td><td>Interacción</td></tr>
+        <tr><td>08</td><td>No es taco. No es pizza. Es un kono.</td><td><div class="tbl-funnel"><span class="tbl-term" style="color:var(--tofu-c)">TOFU</span><span class="tbl-desc">Gente nueva</span></div></td><td>Explicar el concepto</td><td>Carrusel</td><td class="badge-si">✓ Sí</td><td>Alcance · Tuluá</td></tr>
+        <tr><td>09</td><td>El kono más difícil de compartir</td><td><div class="tbl-funnel"><span class="tbl-term" style="color:var(--mofu-c)">MOFU</span><span class="tbl-desc">Ya nos siguen</span></div></td><td>Despertar el antojo</td><td>Reel</td><td class="badge-si">✓ Sí</td><td>Visitas al perfil</td></tr>
+        <tr><td>10</td><td>Del horno a tus manos</td><td><div class="tbl-funnel"><span class="tbl-term" style="color:var(--mofu-c)">MOFU</span><span class="tbl-desc">Ya nos siguen</span></div></td><td>Generar confianza</td><td>Reel</td><td class="badge-si">✓ Sí</td><td>Visitas al perfil</td></tr>
+        <tr><td>11</td><td>Primera vez probando un kono</td><td><div class="tbl-funnel"><span class="tbl-term" style="color:var(--mofu-c)">MOFU</span><span class="tbl-desc">Ya nos siguen</span></div></td><td>Prueba social</td><td>Reel cliente</td><td class="badge-si">✓ Sí</td><td>Interacción · Visitas</td></tr>
+        <tr><td>12</td><td>El duelo de los konos</td><td><div class="tbl-funnel"><span class="tbl-term" style="color:var(--mofu-c)">MOFU</span><span class="tbl-desc">Ya nos siguen</span></div></td><td>Interacción</td><td>Historia encuesta</td><td class="badge-si">✓ Sí</td><td>Interacción</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- ══════════════════════════════
+       GRUPO 1 · MUNDIAL
+  ══════════════════════════════ -->
+  <div class="group">
+    <div class="group-header">
+      <span class="group-icon">⚽</span>
+      <h2>Mundial de Fútbol 2026</h2>
+      <span class="group-cnt">3 piezas</span>
+    </div>
+    <div class="cards">
+
+      <!-- 02 -->
+      <div class="card mofu">
+        <div class="card-header">
+          <span class="card-num">02</span>
+          <div>
+            <div class="card-title">¿Cuál kono eres según tu estilo de ver el partido?</div>
+            <div class="card-pills"><span class="pill pill-mofu">MOFU</span><span class="pill pill-int">Interacción</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="field"><span class="f-lbl">¿Para qué sirve?</span><span class="f-val">Que la gente <strong>interactúe, guarde el carrusel y lo comparta</strong>. El Mundial es la excusa perfecta para hacer un test de identidad que conecte tipos de hinchas con sabores del menú.</span></div>
+          <div class="field"><span class="f-lbl">Etapa del funnel</span><span class="f-val"><span class="funnel-tag ft-mofu">MOFU</span> Personas que <strong>ya nos siguen</strong> pero no han pedido todavía.</span></div>
+          <div class="field"><span class="f-lbl">Formato</span><span class="f-val"><strong>Carrusel</strong> · 8 slides</span></div>
+          <div class="field"><span class="f-lbl">La idea</span><span class="f-val">El Mundial divide a la gente en bandos — el que grita, el analítico, el del postre. Konico hace lo mismo con sus konos. Este carrusel conecta esa identificación de hincha con el menú, generando deseo de compra sin parecer publicidad.</span></div>
+          <div class="field"><span class="f-lbl">Cómo hacerlo</span><span class="f-val">Slide 1: <strong>"¿Cuál kono eres según cómo ves el partido? ⚽"</strong> Slides 2–7: un perfil de hincha por slide + su kono. <em>El que grita los goles</em> → Búfalo Solomito · <em>El analítico del VAR</em> → Camarones Orientales · <em>El que solo va por el postre</em> → Koni-Nutella · <em>El que no sabe de fútbol</em> → Napolitano · <em>El que invita a todos</em> → Combo Kon-Pleto · <em>El que lleva chispas</em> → Koni de la Casa. Slide 8: "¿Ya encontraste el tuyo? Pídelo al WhatsApp antes del partido" + número.</span></div>
+          <div class="copy-box">
+            <div class="copy-segso-row">
+              <span class="copy-segso-lbl">SEGSO</span>
+              <span class="copy-segso-type">Identidad Activa —</span>
+              <span class="copy-segso-desc">el contenido activa el reconocimiento de un tipo de persona. El usuario ve el perfil, se identifica y quiere saber cuál es su kono.</span>
+            </div>
+            <div class="copy-lbl">Gancho</div>
+            <div class="copy-gancho">"Hay gente que grita los goles. Gente que analiza el VAR. Gente que solo va por la comida. ¿Cuál sos vos? ⚽"</div>
+            <div class="copy-lbl" style="margin-top:8px">Narrativa</div>
+            <div class="copy-narrativa">Sea cual sea tu estilo de hincha, hay un kono para ese momento del partido. Desliza, descubre el tuyo y pídelo antes del pitazo.</div>
+            <div class="copy-cta">CTA → Desliza · Comenta cuál sos vos 👇 · Pide el tuyo por WhatsApp</div>
+          </div>
+          <div class="field"><span class="f-lbl">¿Pauta?</span><span class="f-val pauta-si">✓ Sí</span></div>
+          <div class="field"><span class="f-lbl">Tipo de pauta</span><span class="f-val"><strong>Interacción</strong> — para guardados y comentarios</span></div>
+          <div class="field"><span class="f-lbl">¿A quién va?</span><span class="f-val">18–40 años, Medellín y Tuluá. Personas que ya interactuaron con la cuenta + gente nueva con intereses en fútbol y gastronomía.</span></div>
+        </div>
+      </div>
+
+      <!-- 03 -->
+      <div class="card bofu">
+        <div class="card-header">
+          <span class="card-num">03</span>
+          <div>
+            <div class="card-title">Hoy juega Colombia — Historia de urgencia</div>
+            <div class="card-pills"><span class="pill pill-bofu">BOFU</span><span class="pill pill-conv">Ventas</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="field"><span class="f-lbl">¿Para qué sirve?</span><span class="f-val">Que la gente <strong>escriba por WhatsApp ese mismo día</strong>. Se publica solo cuando juega Colombia. La urgencia no es creada — ya existe.</span></div>
+          <div class="field"><span class="f-lbl">Etapa del funnel</span><span class="f-val"><span class="funnel-tag ft-bofu">BOFU</span> Personas que <strong>ya conocen la marca</strong> y están en el momento exacto de decisión.</span></div>
+          <div class="field"><span class="f-lbl">Formato</span><span class="f-val"><strong>Historia</strong> · 4–5 slides · publicar 3–4 horas antes del partido</span></div>
+          <div class="field"><span class="f-lbl">La idea</span><span class="f-val">El partido de Colombia tiene hora fija. Eso crea urgencia real sin necesidad de inventarla. El kono tiene que llegar antes del pitazo — y ese tiempo finito es el mejor argumento de venta del mes.</span></div>
+          <div class="field"><span class="f-lbl">Cómo hacerlo</span><span class="f-val">Slide 1: <strong>"Hoy juega Colombia 🇨🇴 ¿Ya ordenaste?"</strong> + hora del partido. Slide 2: foto del combo con precio. Slide 3: <strong>"Pide con tiempo — llega antes del pitazo."</strong> Slide 4: botón directo WhatsApp. Slide 5 (post-partido): <em>"El que hizo el gol paga los konos 😂"</em></span></div>
+          <div class="copy-box">
+            <div class="copy-segso-row">
+              <span class="copy-segso-lbl">SEGSO</span>
+              <span class="copy-segso-type">Urgencia Real —</span>
+              <span class="copy-segso-desc">el partido tiene hora fija. No hace falta crear escasez artificial — el reloj del partido lo hace solo.</span>
+            </div>
+            <div class="copy-lbl">Gancho</div>
+            <div class="copy-gancho">"Colombia juega hoy. El partido empieza a las [hora]. ¿Ya ordenaste? 🟡🔵🔴"</div>
+            <div class="copy-lbl" style="margin-top:8px">Narrativa</div>
+            <div class="copy-narrativa">No hay peor sensación que el pitazo inicial y vos esperando el delivery. Pide con tiempo — el kono llega antes que el primer gol.</div>
+            <div class="copy-cta">CTA → Pedir ahora · Botón directo a WhatsApp · [número de cada sede]</div>
+          </div>
+          <div class="field"><span class="f-lbl">¿Pauta?</span><span class="f-val pauta-si">✓ Sí · boost el mismo día del partido</span></div>
+          <div class="field"><span class="f-lbl">Tipo de pauta</span><span class="f-val"><strong>Mensajes de WhatsApp</strong></span></div>
+          <div class="field"><span class="f-lbl">¿A quién va?</span><span class="f-val">Seguidores actuales + similares en Medellín y Tuluá que les gusta el fútbol colombiano.</span></div>
+        </div>
+      </div>
+
+      <!-- 04 -->
+      <div class="card bofu">
+        <div class="card-header">
+          <span class="card-num">04</span>
+          <div>
+            <div class="card-title">Combo Mundialista — Imagen de venta directa</div>
+            <div class="card-pills"><span class="pill pill-bofu">BOFU</span><span class="pill pill-conv">Ventas</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="field"><span class="f-lbl">¿Para qué sirve?</span><span class="f-val">Que la gente <strong>pida el Combo Kon-Pleto por WhatsApp</strong> durante los días del Mundial. Precio visible, producto central, cero ambigüedad.</span></div>
+          <div class="field"><span class="f-lbl">Etapa del funnel</span><span class="f-val"><span class="funnel-tag ft-bofu">BOFU</span> Personas que <strong>ya conocen Konico</strong> y solo necesitan la oferta concreta.</span></div>
+          <div class="field"><span class="f-lbl">Formato</span><span class="f-val"><strong>Imagen</strong> · para el feed y como anuncio de pauta</span></div>
+          <div class="field"><span class="f-lbl">La idea</span><span class="f-val">El Combo Mundialista es el plan oficial del partido. El Mundial convierte una oferta normal en el plan de la temporada. El contexto lo hace todo: no es solo un combo, es el ritual de ver el partido con konos.</span></div>
+          <div class="field"><span class="f-lbl">Cómo hacerlo</span><span class="f-val">Foto del Combo Kon-Pleto (2 konos + acompañante + gaseosa) con ambientación de noche de partido: control remoto, camiseta de Colombia al fondo desenfocada. <strong>Precio visible: $54.900.</strong> Logo Konico. WhatsApp de cada sede.</span></div>
+          <div class="copy-box">
+            <div class="copy-segso-row">
+              <span class="copy-segso-lbl">SEGSO</span>
+              <span class="copy-segso-type">FOMO —</span>
+              <span class="copy-segso-desc">el plan del partido ya tiene nombre. Quien no pide el combo se lo está perdiendo. El mundial convierte la decisión de compra en algo que "ya todos hacen".</span>
+            </div>
+            <div class="copy-lbl">Gancho</div>
+            <div class="copy-gancho">"¿Con qué ves el partido esta noche? 🏆"</div>
+            <div class="copy-lbl" style="margin-top:8px">Narrativa</div>
+            <div class="copy-narrativa">El Combo Kon-Pleto: 2 konos del sabor que quieras + acompañante + gaseosa. $54.900. Para que el partido no se quede solo con el fútbol — también que sepa bueno.</div>
+            <div class="copy-cta">CTA → Escríbenos al WhatsApp · Lo pedimos ya 📲</div>
+          </div>
+          <div class="field"><span class="f-lbl">¿Pauta?</span><span class="f-val pauta-si">✓ Sí</span></div>
+          <div class="field"><span class="f-lbl">Tipo de pauta</span><span class="f-val"><strong>Mensajes de WhatsApp</strong></span></div>
+          <div class="field"><span class="f-lbl">¿A quién va?</span><span class="f-val">25–45 años, Medellín y Tuluá. Retargeting de personas que vieron las piezas 02 y 03 + similares a clientes actuales.</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════
+       GRUPO 2 · NUEVA SEDE TULUÁ
+  ══════════════════════════════ -->
+  <div class="group">
+    <div class="group-header">
+      <span class="group-icon">📍</span>
+      <h2>Nueva Sede · Konico Tuluá</h2>
+      <span class="group-cnt">4 piezas</span>
+    </div>
+    <div class="cards">
+
+      <!-- 05 -->
+      <div class="card tofu">
+        <div class="card-header">
+          <span class="card-num">05</span>
+          <div>
+            <div class="card-title">La revolución llega a Tuluá</div>
+            <div class="card-pills"><span class="pill pill-tofu">TOFU</span><span class="pill pill-rec">Reconocimiento</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="field"><span class="f-lbl">¿Para qué sirve?</span><span class="f-val">Que Tuluá y el Valle sepan que Konico existe — <strong>justo en la temporada del Mundial</strong>, cuando la atención gastronómica está en su punto más alto del año.</span></div>
+          <div class="field"><span class="f-lbl">Etapa del funnel</span><span class="f-val"><span class="funnel-tag ft-tofu">TOFU</span> Personas en Tuluá que <strong>nunca han oído hablar de Konico</strong>.</span></div>
+          <div class="field"><span class="f-lbl">Formato</span><span class="f-val"><strong>Reel</strong> · 25–30 seg · Alta producción · pieza ancla de apertura</span></div>
+          <div class="field"><span class="f-lbl">La idea</span><span class="f-val">La apertura de Tuluá y el Mundial coinciden en el mismo mes. Eso no es casualidad — es el momento perfecto para presentar la marca. Tuluá merece celebrar el Mundial con konos.</span></div>
+          <div class="field"><span class="f-lbl">Cómo hacerlo</span><span class="f-val">Abre con plano de Tuluá reconocible. Texto: <strong>"Tuluá, ya es tu turno. ⚽"</strong> Secuencia: fachada → equipo → kono en el horno → plato terminado → cliente tomándolo. Si es posible, de fondo una TV con imágenes del Mundial. Cierre: logo + dirección + WhatsApp. Máximo 30 seg.</span></div>
+          <div class="copy-box">
+            <div class="copy-segso-row">
+              <span class="copy-segso-lbl">SEGSO</span>
+              <span class="copy-segso-type">Nueva Consciencia Cultural —</span>
+              <span class="copy-segso-desc">algo nuevo llegó a la ciudad justo en la época más importante del año. La apertura + el Mundial crean un momento cultural único e irrepetible.</span>
+            </div>
+            <div class="copy-lbl">Gancho</div>
+            <div class="copy-gancho">"Tuluá, ya es tu turno. ⚽ Y el Mundial es el mejor momento para empezar."</div>
+            <div class="copy-lbl" style="margin-top:8px">Narrativa</div>
+            <div class="copy-narrativa">La revolución de los konos llegó al Valle del Cauca — justo a tiempo para el Mundial. Si todavía no saben qué es un kono, esto no puede esperar.</div>
+            <div class="copy-cta">CTA → Escríbenos al WhatsApp · [dirección Tuluá] · ¡Ya estamos listos!</div>
+          </div>
+          <div class="field"><span class="f-lbl">¿Pauta?</span><span class="f-val pauta-si">✓ Sí · inversión prioritaria del mes para Tuluá</span></div>
+          <div class="field"><span class="f-lbl">Tipo de pauta</span><span class="f-val"><strong>Alcance</strong> · Valle del Cauca: Tuluá y municipios cercanos</span></div>
+          <div class="field"><span class="f-lbl">¿A quién va?</span><span class="f-val">18–45 años, Tuluá y alrededores del Valle. Gente nueva que no nos conoce.</span></div>
+        </div>
+      </div>
+
+      <!-- 06 -->
+      <div class="card tofu">
+        <div class="card-header">
+          <span class="card-num">06</span>
+          <div>
+            <div class="card-title">¿Por qué elegimos Tuluá?</div>
+            <div class="card-pills"><span class="pill pill-tofu">TOFU</span><span class="pill pill-rec">Posicionamiento</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="field"><span class="f-lbl">¿Para qué sirve?</span><span class="f-val">Que Tuluá sienta que la marca llegó por razones reales. <strong>El Mundial es parte de esas razones</strong>: en la época más social del año, Tuluá merece comida diferente.</span></div>
+          <div class="field"><span class="f-lbl">Etapa del funnel</span><span class="f-val"><span class="funnel-tag ft-tofu">TOFU</span> Personas en Tuluá que <strong>ya vieron el reel de apertura</strong> y necesitan una razón para confiar.</span></div>
+          <div class="field"><span class="f-lbl">Formato</span><span class="f-val"><strong>Carrusel</strong> · 6 slides · tono cercano y humano</span></div>
+          <div class="field"><span class="f-lbl">La idea</span><span class="f-val">La marca no llega como franquicia — llega porque Tuluá se lo merece. El Mundial refuerza ese argumento: es la época perfecta para llegar, porque la gente está reunida, hambrienta y buscando el mejor plan de partido.</span></div>
+          <div class="field"><span class="f-lbl">Cómo hacerlo</span><span class="f-val">Slide 1: <strong>"Por qué elegimos Tuluá."</strong> Slide 2: "Porque Tuluá se merece comida diferente." Slide 3: "Porque el flow Valle se come." Slide 4: "Porque el kono no podía quedarse solo en Medellín." Slide 5: "Porque en época de Mundial, Tuluá merece el mejor plan de partido." Slide 6: dirección + horarios + WhatsApp.</span></div>
+          <div class="copy-box">
+            <div class="copy-segso-row">
+              <span class="copy-segso-lbl">SEGSO</span>
+              <span class="copy-segso-type">Identidad Territorial —</span>
+              <span class="copy-segso-desc">la marca eligió esta ciudad, no cualquiera. Eso genera orgullo local y confianza. En época de Mundial ese sentido de comunidad se potencia.</span>
+            </div>
+            <div class="copy-lbl">Gancho</div>
+            <div class="copy-gancho">"No llegamos a Tuluá por casualidad. Y el Mundial nos dio la excusa perfecta para hacerlo ahora. 📍"</div>
+            <div class="copy-lbl" style="margin-top:8px">Narrativa</div>
+            <div class="copy-narrativa">En la época más social del año, Tuluá merece tener el mejor plan de partido. Y los konos no podían quedarse solo en Medellín.</div>
+            <div class="copy-cta">CTA → Conoce el menú · Escríbenos al WhatsApp 📍 [dirección]</div>
+          </div>
+          <div class="field"><span class="f-lbl">¿Pauta?</span><span class="f-val pauta-si">✓ Sí</span></div>
+          <div class="field"><span class="f-lbl">Tipo de pauta</span><span class="f-val"><strong>Alcance e Interacción</strong> · Valle del Cauca</span></div>
+          <div class="field"><span class="f-lbl">¿A quién va?</span><span class="f-val">18–40 años, Tuluá y municipios del Valle. Audiencia fría que ya vio el reel de apertura.</span></div>
+        </div>
+      </div>
+
+      <!-- 07 -->
+      <div class="card mofu">
+        <div class="card-header">
+          <span class="card-num">07</span>
+          <div>
+            <div class="card-title">El equipo que hace la magia</div>
+            <div class="card-pills"><span class="pill pill-mofu">MOFU</span><span class="pill pill-int">Cercanía</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="field"><span class="f-lbl">¿Para qué sirve?</span><span class="f-val">Humanizar la nueva sede. <strong>El equipo de Tuluá como los protagonistas del Mundial gastronómico</strong> de la ciudad — las personas que van a preparar los konos de cada partido.</span></div>
+          <div class="field"><span class="f-lbl">Etapa del funnel</span><span class="f-val"><span class="funnel-tag ft-mofu">MOFU</span> Personas que <strong>ya vieron los primeros contenidos</strong> y necesitan cercanía humana antes de pedir.</span></div>
+          <div class="field"><span class="f-lbl">Formato</span><span class="f-val"><strong>Reel</strong> · 20–30 seg · Detrás de cámaras · Tono cálido</span></div>
+          <div class="field"><span class="f-lbl">La idea</span><span class="f-val">Detrás de cada kono hay personas reales. Presentarlas en el contexto del Mundial — "ellos son los que van a preparar tu kono para el partido" — conecta el equipo con el momento más emocional del mes.</span></div>
+          <div class="field"><span class="f-lbl">Cómo hacerlo</span><span class="f-val">Cada persona del equipo 2–3 segundos en cámara haciendo algo natural. Texto: nombre y rol. Si hay TV con el partido de fondo, mejor. Cierre: <strong>"El equipo que va a hacer los konos más buenos de Tuluá durante el Mundial."</strong> Luz natural, teléfono está bien.</span></div>
+          <div class="copy-box">
+            <div class="copy-segso-row">
+              <span class="copy-segso-lbl">SEGSO</span>
+              <span class="copy-segso-type">Prueba Social Humana —</span>
+              <span class="copy-segso-desc">ver personas reales genera más confianza que cualquier argumento. En el contexto del Mundial, el equipo es el "vestuario" que hace ganar el partido gastronómico.</span>
+            </div>
+            <div class="copy-lbl">Gancho</div>
+            <div class="copy-gancho">"Ellos son los que van a hacerte los konos durante el Mundial. 👋"</div>
+            <div class="copy-lbl" style="margin-top:8px">Narrativa</div>
+            <div class="copy-narrativa">El equipo de Konico Tuluá ya está listo para la temporada más sabrosa del año. Cada partido merece un kono. ¿Y vos?</div>
+            <div class="copy-cta">CTA → Pide tu primer kono · WhatsApp Tuluá [número]</div>
+          </div>
+          <div class="field"><span class="f-lbl">¿Pauta?</span><span class="f-val pauta-si">✓ Sí</span></div>
+          <div class="field"><span class="f-lbl">Tipo de pauta</span><span class="f-val"><strong>Interacción</strong> · Tuluá y Valle del Cauca</span></div>
+          <div class="field"><span class="f-lbl">¿A quién va?</span><span class="f-val">Seguidores actuales + nuevas personas en Tuluá que siguieron con las piezas 05 y 06.</span></div>
+        </div>
+      </div>
+
+      <!-- 08 -->
+      <div class="card tofu">
+        <div class="card-header">
+          <span class="card-num">08</span>
+          <div>
+            <div class="card-title">No es taco. No es pizza. Es un kono.</div>
+            <div class="card-pills"><span class="pill pill-tofu">TOFU</span><span class="pill pill-rec">Educación</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="field"><span class="f-lbl">¿Para qué sirve?</span><span class="f-val">Eliminar el desconocimiento del concepto kono en Tuluá. <strong>El Mundial como contexto de consumo</strong>: mostrar el kono como la alternativa diferente a la pizza y el taco para ver el partido.</span></div>
+          <div class="field"><span class="f-lbl">Etapa del funnel</span><span class="f-val"><span class="funnel-tag ft-tofu">TOFU</span> Personas en Tuluá que <strong>nunca han visto un kono</strong>.</span></div>
+          <div class="field"><span class="f-lbl">Formato</span><span class="f-val"><strong>Carrusel</strong> · 6–7 slides · comparativo y visual</span></div>
+          <div class="field"><span class="f-lbl">La idea</span><span class="f-val">En cada partido, la gente elige qué comer: pizza, hamburguesa, papas. El kono entra como la tercera opción que nadie había considerado — y que cambia el partido para siempre.</span></div>
+          <div class="field"><span class="f-lbl">Cómo hacerlo</span><span class="f-val">Slide 1: <strong>"¿Sabías que existe algo mejor que la pizza para ver el partido? ⚽"</strong> Slide 2: pizza tachada + Koni Pizza — "No es una pizza." Slide 3: taco tachado + Koni Maiz — "No es un taco." Slide 4: hamburguesa tachada — "Tampoco." Slide 5: varios konos — "Es el kono de Konico. El plan de partido que estabas buscando." Slide 6: precio de entrada + WhatsApp.</span></div>
+          <div class="copy-box">
+            <div class="copy-segso-row">
+              <span class="copy-segso-lbl">SEGSO</span>
+              <span class="copy-segso-type">Interrupción Directa —</span>
+              <span class="copy-segso-desc">rompe la expectativa con algo que no encaja en las categorías conocidas. El Mundial da el contexto de consumo perfecto para posicionar el kono como la opción diferente al partido.</span>
+            </div>
+            <div class="copy-lbl">Gancho</div>
+            <div class="copy-gancho">"¿Sabías que existe algo mejor que la pizza para ver el partido? 👀"</div>
+            <div class="copy-lbl" style="margin-top:8px">Narrativa</div>
+            <div class="copy-narrativa">No es un taco. No es una pizza. No es lo de siempre. Es el kono de Konico — crocante por fuera, lleno de sabor por dentro. El plan de partido que estabas buscando. Ahora en Tuluá.</div>
+            <div class="copy-cta">CTA → Conoce el menú · Escríbenos y te contamos todo 📲</div>
+          </div>
+          <div class="field"><span class="f-lbl">¿Pauta?</span><span class="f-val pauta-si">✓ Sí · pieza clave para audiencia fría en Tuluá</span></div>
+          <div class="field"><span class="f-lbl">Tipo de pauta</span><span class="f-val"><strong>Alcance</strong> · Tuluá y Valle del Cauca</span></div>
+          <div class="field"><span class="f-lbl">¿A quién va?</span><span class="f-val">18–40 años, Tuluá y Valle del Cauca. Audiencia completamente fría. Intereses: gastronomía, fútbol, delivery.</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════
+       GRUPO 3 · PRODUCTO Y MARCA
+  ══════════════════════════════ -->
+  <div class="group">
+    <div class="group-header">
+      <span class="group-icon">🍟</span>
+      <h2>Contenidos de Producto y Marca</h2>
+      <span class="group-cnt">4 piezas</span>
+    </div>
+    <div class="cards">
+
+      <!-- 09 -->
+      <div class="card mofu">
+        <div class="card-header">
+          <span class="card-num">09</span>
+          <div>
+            <div class="card-title">El kono más difícil de compartir</div>
+            <div class="card-pills"><span class="pill pill-mofu">MOFU</span><span class="pill pill-con">Consideración</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="field"><span class="f-lbl">¿Para qué sirve?</span><span class="f-val">Despertar el antojo con el producto más visual del menú. <strong>El Mundial como contexto de consumo</strong>: el kono como el compañero de partido que nadie quiere compartir.</span></div>
+          <div class="field"><span class="f-lbl">Etapa del funnel</span><span class="f-val"><span class="funnel-tag ft-mofu">MOFU</span> Personas que <strong>ya conocen la marca</strong> pero no han pedido. El video les da el empujón visual.</span></div>
+          <div class="field"><span class="f-lbl">Formato</span><span class="f-val"><strong>Reel</strong> · 15–20 seg · ASMR / Plano cerrado · Sonido del crujido</span></div>
+          <div class="field"><span class="f-lbl">La idea</span><span class="f-val">Durante el partido, nadie quiere compartir su plato. El kono Camarones Orientales es el ejemplo perfecto: tan visual y apetecible que el solo hecho de verlo en video genera el pedido inmediato.</span></div>
+          <div class="field"><span class="f-lbl">Cómo hacerlo</span><span class="f-val">Cámara muy cerca del Kono Camarones Orientales. Crujido real al morderlo. Corte lento al interior: camarones, salsa, almendras, mango, cilantro. Ingredientes como texto al ritmo de la música. Cierre: <strong>$24.900</strong> + WhatsApp. Grabar en vertical.</span></div>
+          <div class="copy-box">
+            <div class="copy-segso-row">
+              <span class="copy-segso-lbl">SEGSO</span>
+              <span class="copy-segso-type">Encuadre Sensorial —</span>
+              <span class="copy-segso-desc">muestra lo que te estás perdiendo si no pides. El partido de fondo hace que el kono se vea como parte del ritual, no como una opción adicional.</span>
+            </div>
+            <div class="copy-lbl">Gancho</div>
+            <div class="copy-gancho">"Este kono no lo compartís en el partido. Y lo entendemos perfectamente. 🦐🔥"</div>
+            <div class="copy-lbl" style="margin-top:8px">Narrativa</div>
+            <div class="copy-narrativa">Camarones al Wok · Salsa de chile agridulce · Almendras · Mango · Cilantro. Todo dentro de un cono crocante. $24.900. El compañero de partido que nadie quiere compartir.</div>
+            <div class="copy-cta">CTA → Pídelo al WhatsApp · [número sede] · Lo tenemos listo antes del partido</div>
+          </div>
+          <div class="field"><span class="f-lbl">¿Pauta?</span><span class="f-val pauta-si">✓ Sí</span></div>
+          <div class="field"><span class="f-lbl">Tipo de pauta</span><span class="f-val"><strong>Visitas al perfil</strong></span></div>
+          <div class="field"><span class="f-lbl">¿A quién va?</span><span class="f-val">22–40 años, Medellín (Laureles y Manila). Personas que ya siguen la cuenta y les gusta el marisco.</span></div>
+        </div>
+      </div>
+
+      <!-- 10 -->
+      <div class="card mofu">
+        <div class="card-header">
+          <span class="card-num">10</span>
+          <div>
+            <div class="card-title">Del horno a tus manos</div>
+            <div class="card-pills"><span class="pill pill-mofu">MOFU</span><span class="pill pill-int">Confianza</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="field"><span class="f-lbl">¿Para qué sirve?</span><span class="f-val">Mostrar que cada kono se hace en el momento — <strong>recién hecho para cada partido</strong>. Diferencia a Konico de la comida rápida genérica sin necesitar argumentos.</span></div>
+          <div class="field"><span class="f-lbl">Etapa del funnel</span><span class="f-val"><span class="funnel-tag ft-mofu">MOFU</span> Personas que <strong>ya siguen la cuenta</strong> y necesitan convicción sobre la calidad.</span></div>
+          <div class="field"><span class="f-lbl">Formato</span><span class="f-val"><strong>Reel</strong> · 20–25 seg · Detrás de cámaras · Cortes al ritmo</span></div>
+          <div class="field"><span class="f-lbl">La idea</span><span class="f-val">El Mundial genera picos de demanda. Mostrar la cocina en acción durante esos picos dice: "en Konico el kono se hace en el momento, no viene de una bolsa". Eso es prueba de calidad más poderosa que cualquier certificación.</span></div>
+          <div class="field"><span class="f-lbl">Cómo hacerlo</span><span class="f-val">Secuencia de proceso: masa cruda → horno → cono dorado (vapor) → relleno puesto con pinzas → kono listo → cliente tomándolo. Si hay partidos en la TV de fondo, incluirlo. Texto único: <strong>"Así se hace el kono del partido."</strong> Sin voz, música con energía.</span></div>
+          <div class="copy-box">
+            <div class="copy-segso-row">
+              <span class="copy-segso-lbl">SEGSO</span>
+              <span class="copy-segso-type">Valor Educativo —</span>
+              <span class="copy-segso-desc">mostrar el proceso real genera confianza sin argumentos de venta. En contexto de Mundial, "hecho en el momento para tu partido" se convierte en un diferencial emocional.</span>
+            </div>
+            <div class="copy-lbl">Gancho</div>
+            <div class="copy-gancho">"Mientras esperas el partido, en Konico ya están haciendo tu kono. 🔥"</div>
+            <div class="copy-lbl" style="margin-top:8px">Narrativa</div>
+            <div class="copy-narrativa">De la masa al relleno, nada viene preempacado. Cada kono es del momento — recién horneado, recién armado, recién entregado. Así para cada partido.</div>
+            <div class="copy-cta">CTA → ¿Cuál kono te hacemos para el partido? Escríbenos al WhatsApp 📲</div>
+          </div>
+          <div class="field"><span class="f-lbl">¿Pauta?</span><span class="f-val pauta-si">✓ Sí</span></div>
+          <div class="field"><span class="f-lbl">Tipo de pauta</span><span class="f-val"><strong>Visitas al perfil</strong></span></div>
+          <div class="field"><span class="f-lbl">¿A quién va?</span><span class="f-val">Seguidores actuales + personas nuevas que lo encuentren. Publicar al mediodía o antes de la cena.</span></div>
+        </div>
+      </div>
+
+      <!-- 11 -->
+      <div class="card mofu">
+        <div class="card-header">
+          <span class="card-num">11</span>
+          <div>
+            <div class="card-title">Primera vez probando un kono</div>
+            <div class="card-pills"><span class="pill pill-mofu">MOFU</span><span class="pill pill-bofu">BOFU</span><span class="pill pill-con">Prueba social</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="field"><span class="f-lbl">¿Para qué sirve?</span><span class="f-val">Una reacción real convence más que cualquier texto. <strong>El Mundial es el contexto</strong>: alguien probando un kono por primera vez en plena temporada mundialista.</span></div>
+          <div class="field"><span class="f-lbl">Etapa del funnel</span><span class="f-val"><span class="funnel-tag ft-mofu">MOFU</span> <span class="funnel-tag ft-bofu">BOFU</span> Funciona para quienes <strong>aún no se animan</strong> (MOFU) y para quienes <strong>están a punto de decidir</strong> (BOFU).</span></div>
+          <div class="field"><span class="f-lbl">Formato</span><span class="f-val"><strong>Reel de cliente real</strong> · 10–15 seg · Sin guión · Reacción genuina</span></div>
+          <div class="field"><span class="f-lbl">La idea</span><span class="f-val">Una cara honesta vende más que cualquier copy. En pleno Mundial, donde la gente está buscando el mejor plan de partido, ver a alguien probar un kono por primera vez es el argumento definitivo.</span></div>
+          <div class="field"><span class="f-lbl">Cómo hacerlo</span><span class="f-val">Video corto en vertical. Cliente muerde el kono — sin guión, reacción natural. Texto: <strong>"Primera vez durante el Mundial 👀"</strong>. Si hay partido en la TV de fondo, mejor. Cierre: logo + WhatsApp. Teléfono está bien, sin filtros que lo hagan parecer publicidad.</span></div>
+          <div class="copy-box">
+            <div class="copy-segso-row">
+              <span class="copy-segso-lbl">SEGSO</span>
+              <span class="copy-segso-type">Prueba Social / UGC —</span>
+              <span class="copy-segso-desc">la reacción real de un cliente elimina la duda de compra. En contexto de Mundial, el mensaje implícito es: "todo el mundo ya lo está pidiendo para ver el partido".</span>
+            </div>
+            <div class="copy-lbl">Gancho</div>
+            <div class="copy-gancho">"Esta cara la vamos a ver mucho durante el Mundial. Y no es de gol. 🤤"</div>
+            <div class="copy-lbl" style="margin-top:8px">Narrativa</div>
+            <div class="copy-narrativa">Es la cara de alguien probando un kono por primera vez. Si todavía no viviste la tuya, el partido de hoy es el momento perfecto para empezar.</div>
+            <div class="copy-cta">CTA → Pide el tuyo y vive la experiencia · [WhatsApp cada sede]</div>
+          </div>
+          <div class="field"><span class="f-lbl">¿Pauta?</span><span class="f-val pauta-si">✓ Sí · UGC real genera el mejor resultado en pauta</span></div>
+          <div class="field"><span class="f-lbl">Tipo de pauta</span><span class="f-val"><strong>Interacción · Visitas al perfil</strong></span></div>
+          <div class="field"><span class="f-lbl">¿A quién va?</span><span class="f-val">18–35 años, Medellín y Tuluá. Personas que todavía no han pedido — tanto seguidores como audiencia nueva.</span></div>
+        </div>
+      </div>
+
+      <!-- 12 -->
+      <div class="card mofu">
+        <div class="card-header">
+          <span class="card-num">12</span>
+          <div>
+            <div class="card-title">El duelo de los konos</div>
+            <div class="card-pills"><span class="pill pill-mofu">MOFU</span><span class="pill pill-int">Interacción</span></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="field"><span class="f-lbl">¿Para qué sirve?</span><span class="f-val">Que los seguidores <strong>interactúen usando la mecánica del Mundial</strong>: en un torneo siempre hay que elegir un bando. El duelo de konos replica esa dinámica.</span></div>
+          <div class="field"><span class="f-lbl">Etapa del funnel</span><span class="f-val"><span class="funnel-tag ft-mofu">MOFU</span> Personas que <strong>ya siguen la cuenta</strong> y participan en historias.</span></div>
+          <div class="field"><span class="f-lbl">Formato</span><span class="f-val"><strong>Historia con encuesta</strong> · 2 slides · repetible cada semana con nueva pareja</span></div>
+          <div class="field"><span class="f-lbl">La idea</span><span class="f-val">El Mundial tiene partidos todos los días. Konico también puede tener "partidos" propios — duelos entre konos. La mecánica del torneo mundialista se replica en el menú: dos konos, solo uno puede ganar.</span></div>
+          <div class="field"><span class="f-lbl">Cómo hacerlo</span><span class="f-val">Slide 1: foto de dos konos cara a cara con diseño de "partido" (escudo vs escudo, pero konos). Encuesta de Instagram al centro. Duelos propuestos: Búfalo Solomito vs Camarones Orientales · Koni Maiz vs Koni Pizza · Koni-Nutella vs Koniza. Slide 2 (24h después): el kono ganador + "¿Y el tuyo cuándo lo pides?" + WhatsApp.</span></div>
+          <div class="copy-box">
+            <div class="copy-segso-row">
+              <span class="copy-segso-lbl">SEGSO</span>
+              <span class="copy-segso-type">Identidad Tribal / Torneo —</span>
+              <span class="copy-segso-desc">en el Mundial siempre hay que elegir un bando. El duelo de konos traslada esa mecánica al menú: genera identificación, participación y conversación orgánica.</span>
+            </div>
+            <div class="copy-lbl">Gancho</div>
+            <div class="copy-gancho">"Como en el Mundial, hoy también hay que elegir un bando. ⚽👇"</div>
+            <div class="copy-lbl" style="margin-top:8px">Narrativa</div>
+            <div class="copy-narrativa">¿Búfalo Solomito o Camarones Orientales? El partido más importante del día no está en el estadio — está en esta historia. Vota y dinos de qué lado estás.</div>
+            <div class="copy-cta">CTA → Vota · Mañana se revela el ganador · Pide el tuyo al WhatsApp</div>
+          </div>
+          <div class="field"><span class="f-lbl">¿Pauta?</span><span class="f-val pauta-si">✓ Sí</span></div>
+          <div class="field"><span class="f-lbl">Tipo de pauta</span><span class="f-val"><strong>Interacción</strong></span></div>
+          <div class="field"><span class="f-lbl">¿A quién va?</span><span class="f-val">Seguidores actuales de @konicorestaurante en Medellín y Tuluá. Publicar martes o jueves.</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p class="footer-source">Ideas generadas con base en: Planeación de Contenidos Konico Junio 2026 (@kontraria.co · Esteban Hernández) · Documento Estratégico de Marketing Digital KONICO v1.0 · Historial de Meta Ads Ene–May 2026. Estructura de copy: SEGSO → GANCHO → NARRATIVA → CTA aplicada a cada pieza. Concepto rector: Mundial de Fútbol 2026.</p>
+  <div class="footer-brand">
+    <span style="display:flex;align-items:center;flex:none">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+        <rect width="18" height="18" rx="5" fill="url(#fg)"/>
+        <path d="M4 13V5h4a4 4 0 0 1 0 8H4Z" fill="#fff" opacity=".9"/>
+        <circle cx="13" cy="9" r="2" fill="#fff" opacity=".7"/>
+        <defs><linearGradient id="fg" x1="0" y1="0" x2="18" y2="18" gradientUnits="userSpaceOnUse"><stop stop-color="#0A84FF"/><stop offset="1" stop-color="#BF5AF2"/></linearGradient></defs>
+      </svg>
+    </span>
+    <span class="footer-text">Hecho por <strong>DATA</strong>pro Marketing Analytic</span>
+    <span style="color:rgba(255,255,255,.25);font-size:16px">·</span>
+    <a class="footer-contact" href="tel:+573215959404">📞 321 595 9404</a>
+  </div>
+</footer>
+
+</body>
+</html>
